@@ -14,6 +14,7 @@ $config = [
         '@tests' => '@app/tests',
     ],
     'components' => [
+        //да-да, работает
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
         ],
