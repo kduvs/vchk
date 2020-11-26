@@ -11,6 +11,7 @@ use app\models\BookAuthor;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\ForbiddenHttpException;
 
 /**
  * BooksController implements the CRUD actions for Books model.
@@ -30,6 +31,15 @@ class BooksController extends Controller
                 ],
             ],
         ];
+    }
+
+    public function beforeAction($action)
+    {
+        if (in_array($action->id, ['index', 'create', 'update', 'view']) && !Yii::$app->user->can('crudBook')) {
+            throw new ForbiddenHttpException;
+        } else {
+            return parent::beforeAction($action);
+        }
     }
 
     /**

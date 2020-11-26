@@ -10,31 +10,49 @@ class RbacController extends Controller
     {
         $auth = Yii::$app->authManager;
 
-        // добавляем разрешение "createPost"
-        $createPost = $auth->createPermission('createPost');
-        $createPost->description = 'Create a post';
-        $auth->add($createPost);
+        $rule = new \app\rbac\OwnerRule;
+        $auth->add($rule);
 
-        // добавляем разрешение "updatePost"
-        $updatePost = $auth->createPermission('updatePost');
-        $updatePost->description = 'Update post';
-        $auth->add($updatePost);
+        $updateOwnBook = $auth->createPermission('updateOwnBook'); //для обычных админов
+        $updateOwnBook->description = 'Редактирование своих книг';
+        $updateOwnBook->ruleName = $rule->name;
+        $auth->add($updateOwnBook);
 
-        // добавляем роль "author" и даём роли разрешение "createPost"
-        $author = $auth->createRole('author');
-        $auth->add($author);
-        $auth->addChild($author, $createPost);
+        $createOwnBook = $auth->createPermission('createOwnBook'); //для обычных админов
+        $createOwnBook->description = 'Добавление своих книг';
+        $auth->add($createOwnBook);
 
-        // добавляем роль "admin" и даём роли разрешение "updatePost"
-        // а также все разрешения роли "author"
-        $admin = $auth->createRole('admin');
+        $bookBooking = $auth->createPermission('bookBooking');
+        $bookBooking->description = 'бронирование книги'; //например можно будет снимать по желанию данное разрешение со спамеров
+        $auth->add($bookBooking);
+
+        $chat = $auth->createPermission('chat');
+        $chat->description = 'чат'; //например можно будет снимать по желанию данное разрешение со спамеров
+        $auth->add($chat);/* */
+
+        $crudBook = $auth->createPermission('crudBook');
+        $crudBook->description = 'Круд для книг';
+        $auth->add($crudBook);
+
+
+        $user = $auth->createRole('user'); //может юзать поиск, подавать заявки на книги, брать и возвращать их
+        $auth->add($user);
+        $auth->addChild($user, $bookBooking);
+        $auth->addChild($user, $chat);
+
+        $employee = $auth->createRole('employee'); 
+        $auth->add($employee);
+        $auth->addChild($employee, $updateOwnBook);
+        $auth->addChild($employee, $createOwnBook);
+        $auth->addChild($employee, $user);
+
+        $admin = $auth->createRole('admin'); //не может иметь книги, но имеет власть над книгами, юзерами, логами и тегами
         $auth->add($admin);
-        $auth->addChild($admin, $updatePost);
-        $auth->addChild($admin, $author);
+        $auth->addChild($admin, $crudBook);
+        $auth->addChild($admin, $user); //не от сотрудника, потому что админу не особо и нужно иметь свои книги, если он и так владеет всеми книгами ИС
+        //при регистрации роль сотрудника задается путем проверки личного кабинета, а под роль админа изначально существует отдельный аккаунт
 
-        // Назначение ролей пользователям. 1 и 2 это IDs возвращаемые IdentityInterface::getId()
-        // обычно реализуемый в модели User.
-        $auth->assign($author, 2);
-        $auth->assign($admin, 1);
+        $auth->assign($employee, 5);
+        $auth->assign($admin, 6);
     }
 }

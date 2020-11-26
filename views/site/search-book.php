@@ -75,9 +75,9 @@ $this->title = 'Your Yii Application';
 
 <table>
     <td>
-        <?= $form->field($model, 'owner_id')->dropDownList(
+        <!-- <?= $form->field($model, 'owner_id')->dropDownList(
             \yii\helpers\ArrayHelper::map($owners, 'id', 'title')
-        )->label(false) ?>
+        )->label(false) ?> -->
         
     </td>
     <td>
@@ -87,9 +87,10 @@ $this->title = 'Your Yii Application';
     </td>
 </table>
 <?php ActiveForm::end() ?>
-
+<br>
+<br>
 <?php
 foreach($dataProvider->models as $k=>$val){
     echo 'Название книги: '.'<b>'.$val->title.'</b>'.'<br>';
-    echo 'Описание: '.$val->description.'<br>';
+    echo 'Описание: '.$val->description.'<br><br>';
 } ?>

@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "log_issuing".
@@ -38,9 +39,9 @@ class LogIssuing extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['book_id', 'owner_id', 'issuing_id', 'recipient_id', 'taker_id', 'issue_time', 'return_time'], 'required'],
+            [['book_id', 'owner_id', 'taker_id', 'issue_time', 'deadline'], 'required'],
             [['book_id', 'owner_id', 'issuing_id', 'recipient_id', 'taker_id'], 'integer'],
-            [['issue_time', 'return_time'], 'safe'],
+            [['issue_time', 'return_time', 'deadline'], 'safe'],
             [['book_id'], 'exist', 'skipOnError' => true, 'targetClass' => Books::className(), 'targetAttribute' => ['book_id' => 'id']],
             [['issuing_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['issuing_id' => 'id']],
             [['owner_id'], 'exist', 'skipOnError' => true, 'targetClass' => Owners::className(), 'targetAttribute' => ['owner_id' => 'id']],
@@ -63,54 +64,30 @@ class LogIssuing extends \yii\db\ActiveRecord
             'taker_id' => 'Taker ID',
             'issue_time' => 'Дата выдачи',
             'return_time' => 'Дата возврата',
+            'deadline' => 'Дедлайн',
         ];
     }
 
-    /**
-     * Gets query for [[Book]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getBook()
     {
         return $this->hasOne(Books::className(), ['id' => 'book_id']);
     }
 
-    /**
-     * Gets query for [[Issuing]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getIssuing()
     {
         return $this->hasOne(User::className(), ['id' => 'issuing_id']);
     }
 
-    /**
-     * Gets query for [[Owner]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getOwner()
     {
         return $this->hasOne(Owners::className(), ['id' => 'owner_id']);
     }
 
-    /**
-     * Gets query for [[Recipient]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getRecipient()
     {
         return $this->hasOne(User::className(), ['id' => 'recipient_id']);
     }
 
-    /**
-     * Gets query for [[Taker]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getTaker()
     {
         return $this->hasOne(User::className(), ['id' => 'taker_id']);

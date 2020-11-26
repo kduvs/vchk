@@ -37,7 +37,7 @@ AppAsset::register($this);
     ]);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
+        'items' => array_filter([ //array_filter переигрывает и уничтожает false-итемы
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
@@ -52,8 +52,9 @@ AppAsset::register($this);
                 )
                 . Html::endForm()
                 . '</li>'
-            )
-        ],
+                ),
+            Yii::$app->user->isGuest ? ['label' => 'Signup', 'url' => ['/site/signup']] : false,
+        ]),
     ]);
     NavBar::end();
     ?>

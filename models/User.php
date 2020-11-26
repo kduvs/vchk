@@ -100,4 +100,15 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return \Yii::$app->security->validatePassword($password, $this->password);
     }
 
+    // public function beforeSave($insert)
+    // {
+    //     if (parent::beforeSave($insert)) {
+    //         if ($this->isNewRecord) {
+    //             $this->auth_key = \Yii::$app->security->generateRandomString();
+    //         }
+    //         return true;
+    //     }
+    //     return false;
+    // }
+
 }
