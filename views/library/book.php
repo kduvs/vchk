@@ -5,9 +5,7 @@ use yii\widgets\DetailView;
 use yii\grid\GridView;
 use app\models\User;
 
-use yii\bootstrap\Modal;
-use kartik\form\ActiveForm;
-use kartik\datetime\DateTimePicker;
+
 
 $this->title = Yii::t('app', $book->title);
 $this->params['breadcrumbs'][] = $this->title;
@@ -54,36 +52,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]);
     } else {
+        echo $this->render('_modal', ['book' => $book, 'model' => $model, 'status' => $status, 'label' => $label]);
         //echo Html::a('Получить', ['booking', 'id' => $book->id], ['class' => 'btn btn-primary']);
         //сделать проверку на то, свободна ли в данный момент эта книга, и в зависиммости от статуса выводить соотв. элементы (нет в наличии / получить)
     }
-    //если захочется что-то более мудренное с html, то, чтобы с echo не мучаться, можешь вызвать render на форму с данной хтмл херней
+    //если захочется что-то более мудренное с html, то, чтобы с echo не мучаться, можешь вызвать render на форму с данной хтмл херней  
 ?>
-
-
-<div class="row">
-	<div class="col-sm-4">
-		<div style="margin-top: 20px">
-			<?php
-			Modal::begin([
-                'header' => 'Я сделяль',
-                'toggleButton' => ['label' => $label, 'class' => 'btn btn-primary', 'disabled' => abs($status) == 1],
-			]);
-			?>
-            <?php $form = ActiveForm::begin(); ?>
-			<div class="row" style="margin-bottom: 8px">
-					<?= $form->field($model, 'deadline')->widget(DateTimePicker::className(), [
-						'options' => ['placeholder' => 'Укажите время возврата'],
-						'pluginOptions' => ['autoclose' => true]
-					]); ?>
-			</div>
-			<?= $form->field($model, 'message')->textarea() ?>
-
-            <div class="form-group">
-                <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-            </div>
-            <?php $form = ActiveForm::end(); ?>
-			<?php Modal::end(); ?>
-		</div>
-	</div>
-</div>

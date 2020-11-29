@@ -87,27 +87,27 @@ class LibraryController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    public function actionBooking($id = null)
-    {
-        if(Yii::$app->user->can('bookBooking')){
+    // public function actionBooking($id = null)
+    // {
+    //     if(Yii::$app->user->can('bookBooking')){
 
-            if(!isset($id)){
-                return $this->render('booking'); //if(!isser($model)) in view
-            }
+    //         if(!isset($id)){
+    //             return $this->render('booking'); //if(!isser($model)) in view
+    //         }
             
-            $book = Books::findOne($id);
-            $model = new LogIssuing();
-            $model->owner_id = $book->owner_id;
-            $model->book_id = $book->id;
-            $model->recipient_id = User::findOne(Yii::$app->user->identity->getId());
+    //         $book = Books::findOne($id);
+    //         $model = new LogIssuing();
+    //         $model->owner_id = $book->owner_id;
+    //         $model->book_id = $book->id;
+    //         $model->recipient_id = User::findOne(Yii::$app->user->identity->getId());
             
-            return $this->render('booking', [
-                'model' => $model,
-            ]);
-        }
+    //         return $this->render('booking', [
+    //             'model' => $model,
+    //         ]);
+    //     }
 
-        throw new ForbiddenHttpException;
-    }
+    //     throw new ForbiddenHttpException;
+    // }
 
     public function actionReturnBook($book_id)
     {
