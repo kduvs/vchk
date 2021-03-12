@@ -43,7 +43,6 @@ class Books extends \yii\db\ActiveRecord
         return [
             'tagBehavior' => TagBehavior::className(),
             'authorBehavior' => AuthorBehavior::className(),
-            //'tagBehavior' => TagBehavior::classname()
         ];
     }
 

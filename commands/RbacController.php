@@ -29,11 +29,9 @@ class RbacController extends Controller
         $chat = $auth->createPermission('chat');
         $chat->description = 'чат'; //например можно будет снимать по желанию данное разрешение со спамеров
         $auth->add($chat);/* */
-
         $crudBook = $auth->createPermission('crudBook');
         $crudBook->description = 'Круд для книг';
         $auth->add($crudBook);
-
 
         $user = $auth->createRole('user'); //может юзать поиск, подавать заявки на книги, брать и возвращать их
         $auth->add($user);

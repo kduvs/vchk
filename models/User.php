@@ -17,6 +17,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return [
             [['username', 'password'], 'required', 'message' => 'Заполните поле'],
             ['username', 'unique', 'targetClass' => User::className(),  'message' => 'Этот логин уже занят'],
+            [['owner_id'], 'exist', 'skipOnError' => true, 'targetClass' => Owners::className(), 'targetAttribute' => ['owner_id' => 'id']],
         ];
     }
 
@@ -26,6 +27,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             'id' => 'ID',
             'username' => 'Логин',
             'password' => 'Password',
+            'owner_id' => 'Owner_id'
         ];
     }
 
@@ -54,10 +56,10 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return $this->hasMany(Sections::className(), ['id' => 'section_id'])->viaTable('section_user', ['user_id' => 'id']);
     }
 
-    // public function getOwner()
-    // {
-    //     return $this->hasOne(Owners::className(), ['id' => 'owner_id']);
-    // }
+    public function getOwner()
+    {
+        return $this->hasOne(Owners::className(), ['id' => 'owner_id']);
+    }
 
     public static function findIdentity($id)
     {

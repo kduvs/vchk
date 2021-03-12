@@ -4,12 +4,12 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
 use app\models\User;
-
-
+use yii\bootstrap\Button;
 
 $this->title = Yii::t('app', $book->title);
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
 <div class="book">
 
     <h2><?= Html::encode($this->title) ?></h2>
@@ -52,8 +52,24 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]);
     } else {
-        echo $this->render('_modal', ['book' => $book, 'model' => $model, 'status' => $status, 'label' => $label]);
-        //echo Html::a('Получить', ['booking', 'id' => $book->id], ['class' => 'btn btn-primary']);
+        //echo $this->render('_modal', ['book' => $book, 'model' => $model, 'status' => $status, 'label' => $label]);
+        switch($status){
+            case 1:
+                echo Html::a($label, ['return-book', 'book_id' => $book->id], ['class' => 'btn btn-primary']);
+                break;
+            case 2:
+                echo Html::a($label, ['booking', 'book_id' => $book->id], ['class' => 'btn btn-primary']);
+                break;
+            default:
+                echo Button::widget([
+                    'label' => $label,
+                    'options' => [
+                        'class' => 'btn btn-primary',
+                        'disabled' => true,
+                    ]
+                ]);
+                break;
+        }
         //сделать проверку на то, свободна ли в данный момент эта книга, и в зависиммости от статуса выводить соотв. элементы (нет в наличии / получить)
     }
     //если захочется что-то более мудренное с html, то, чтобы с echo не мучаться, можешь вызвать render на форму с данной хтмл херней  

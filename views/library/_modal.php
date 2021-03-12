@@ -1,10 +1,10 @@
 <?php
 use yii\bootstrap\Modal;
-use kartik\form\ActiveForm;
+//use kartik\form\ActiveForm;
+use yii\bootstrap\ActiveForm;
 use kartik\datetime\DateTimePicker;
 use yii\helpers\Html;
 ?>
-
 <div class="row">
 	<div class="col-sm-4">
 		<div style="margin-top: 20px">
@@ -16,9 +16,9 @@ use yii\helpers\Html;
 			]);
 			?>
             <?php $form = ActiveForm::begin([
-				'id' => 'book-form',
+				'id' => 'sdsds',
 				'enableAjaxValidation' => true,
-				'action' => ['book'],
+				'action' => ['ajax-modal'],
 			]); ?>
 			<div class="row" style="margin-bottom: 8px">
 					<?= $form->field($model, 'deadline')->widget(DateTimePicker::className(), [

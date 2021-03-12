@@ -39,9 +39,9 @@ class LogIssuing extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['book_id', 'owner_id', 'taker_id', 'issue_time', 'deadline'], 'required'],
+            [['book_id', 'owner_id', 'taker_id', 'deadline'], 'required'],
             [['book_id', 'owner_id', 'issuing_id', 'recipient_id', 'taker_id'], 'integer'],
-            [['issue_time', 'return_time', 'deadline'], 'safe'],
+            //[['deadline'], 'safe'],
             [['message'], 'string'],
             [['book_id'], 'exist', 'skipOnError' => true, 'targetClass' => Books::className(), 'targetAttribute' => ['book_id' => 'id']],
             [['issuing_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['issuing_id' => 'id']],
@@ -65,7 +65,7 @@ class LogIssuing extends \yii\db\ActiveRecord
             'taker_id' => 'Taker ID',
             'issue_time' => 'Дата выдачи',
             'return_time' => 'Дата возврата',
-            'deadline' => 'Дедлайн',
+            'deadline' => 'Крайний срок возврата',
             'message' => 'Сообщение',
         ];
     }
