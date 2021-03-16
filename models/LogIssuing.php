@@ -41,6 +41,7 @@ class LogIssuing extends \yii\db\ActiveRecord
         return [
             [['book_id', 'owner_id', 'taker_id', 'deadline'], 'required'],
             [['book_id', 'owner_id', 'issuing_id', 'recipient_id', 'taker_id'], 'integer'],
+            ['response','safe'],
             //[['deadline'], 'safe'],
             [['message'], 'string'],
             [['book_id'], 'exist', 'skipOnError' => true, 'targetClass' => Books::className(), 'targetAttribute' => ['book_id' => 'id']],

@@ -28,22 +28,49 @@ class UsersController extends \yii\web\Controller
         return $this->render('index', ['dataProvider' => $dataProvider]);
     }
 
-    public function actionNotifications()
+    public function actionNotifications($id = null)
     {
+        $model = new LogIssuing();
+        //print_r(Yii::$app->request->post('LogIssuing'));
+        if(Yii::$app->request->post('LogIssuing')){
+            //print_r(Yii::$app->request->post('LogIssuing')['response']);
+            //print_r(Yii::$app->request->post());
+            //exit(0);
+
+            //$model = LogIssuing::findOne($id);
+            //if($model->load(Yii::$app->request->post())) {
+            //    $model->save();
+            //}
+            $model->load(Yii::$app->request->post());
+            //print_r($model);
+            //exit(0);
+            //print_r(Yii::$app->request->post(LogIssuing::className()));
+            //echo '<br>';
+            //print_r(Yii::$app->request->post(LogIssuing::className())[LogIssuing::$primaryKey]);
+            $model = LogIssuing::findOne(Yii::$app->request->post('LogIssuing')['id']);
+            if($model->load(Yii::$app->request->post())) {
+                $model->save();
+            }
+            else {
+                print_r(Yii::$app->request->post());
+            }
+            
+        }
+        
+        
+        if(Yii::$app->request->post('submit') === 'positive') {
+            print_r(Yii::$app->request->post());
+            exit(0);
+        } elseif (Yii::$app->request->post('submit') === 'negative') {
+            echo 'NEGATIVE';
+        }
         $sentSearchModel = new SentLogIssuingSearch();
         $inboxSearchModel = new InboxLogIssuingSearch();
-        // if($type == 'sent'){
-        //     $serachModel->taker_id = Yii::$app->user->identity->id;
-        // } else {
-        //     $serachModel->owner_id = Yii::$app->user->identity->owner_id;
-        // }
-
-        //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('notifications', [
-            //'dataProvider' => $dataProvider,
             'sentSearchModel' => $sentSearchModel,
             'inboxSearchModel' => $inboxSearchModel,
         ]);
+        
     }
 
     // public function actionInbox()
