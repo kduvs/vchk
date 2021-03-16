@@ -9,8 +9,8 @@ use Yii;
 
 class LogIssuingSearch extends LogIssuing
 {
-    private $taker;
-    private $book;
+    public $taker;
+    public $book;
     public function rules()
     {
         return [
@@ -28,7 +28,7 @@ class LogIssuingSearch extends LogIssuing
 
     public function search($params)
     {
-        $query = LogIssuing::find()->where(['log_issuing.owner_id' => Yii::$app->user->identity->owner_id]);
+        $query = LogIssuing::find(); //->where(['log_issuing.owner_id' => Yii::$app->user->identity->owner_id])
         // print_r($query->all());
         // exit(0);
 
@@ -47,7 +47,9 @@ class LogIssuingSearch extends LogIssuing
         ->joinWith(['taker' => function($query) { $query->from(['user' => 'user']); }])
             ->andFilterWhere(['like', 'user.username', $this->taker])
         ->joinWith(['book' => function($query) { $query->from(['book' => 'books']); }])
-            ->andFilterWhere(['like', 'book.title', $this->book]);
+            ->andFilterWhere(['like', 'book.title', $this->book])
+        ->andFilterWhere(['log_issuing.owner_id' => $this->owner_id])
+        ->andFilterWhere(['log_issuing.taker_id' => $this->taker_id]);
 
         $dataProvider->sort->attributes['taker'] = [
             'asc' => ['user.username' => SORT_ASC],

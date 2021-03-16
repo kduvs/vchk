@@ -24,10 +24,7 @@
     // "peacock.color": "#9eb9ba",
     "workbench.colorCustomizations": {
         "gitDecoration.modifiedResourceForeground": "#b657ff",
-        // "gitDecoration.deletedResourceForeground": "",
-        "gitDecoration.untrackedResourceForeground": "#a29dfa", //"#f5b0ef",
-        // "gitDecoration.ignoredResourceForeground": "",
-        // "gitDecoration.conflictingResourceForeground": ""
+        "gitDecoration.untrackedResourceForeground": "#a29dfa"
     }
     
 }

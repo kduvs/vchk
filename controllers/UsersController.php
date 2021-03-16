@@ -7,6 +7,8 @@ use app\models\Books;
 use app\models\BooksSearch;
 use app\models\LogIssuing;
 use app\models\LogIssuingSearch;
+use app\models\InboxLogIssuingSearch;
+use app\models\SentLogIssuingSearch;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\data\ActiveDataProvider;
@@ -28,14 +30,43 @@ class UsersController extends \yii\web\Controller
 
     public function actionNotifications()
     {
-        $searchModel = new LogIssuingSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        
+        $sentSearchModel = new SentLogIssuingSearch();
+        $inboxSearchModel = new InboxLogIssuingSearch();
+        // if($type == 'sent'){
+        //     $serachModel->taker_id = Yii::$app->user->identity->id;
+        // } else {
+        //     $serachModel->owner_id = Yii::$app->user->identity->owner_id;
+        // }
+
+        //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('notifications', [
-            'dataProvider' => $dataProvider,
-            'searchModel' => $searchModel
+            //'dataProvider' => $dataProvider,
+            'sentSearchModel' => $sentSearchModel,
+            'inboxSearchModel' => $inboxSearchModel,
         ]);
     }
+
+    // public function actionInbox()
+    // {
+    //     $searchModel = new LogIssuingSearch();
+    //     $searchModel->owner_id = Yii::$app->user->identity->owner_id;
+    //     $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+    //     return $this->render('notifications', [
+    //         'dataProvider' => $dataProvider,
+    //         'searchModel' => $searchModel
+    //     ]);
+    // }
+
+    // public function actionSent()
+    // {
+    //     $searchModel = new LogIssuingSearch();
+    //     $serachModel->taker_id = Yii::$app->user->identity->id;
+    //     $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+    //     return $this->render('notifications', [
+    //         'dataProvider' => $dataProvider,
+    //         'searchModel' => $searchModel
+    //     ]);
+    // }
 
     public function actionProfile($username = null) //переделать под правило без использования getColumn
     {
