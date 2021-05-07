@@ -23,7 +23,8 @@
         "kartik-v/yii2-widget-typeahead": "dev-master",
         "kartik-v/yii2-widget-datetimepicker": "dev-master",
         "kartik-v/yii2-widget-activeform": "dev-master",
-        "yiisoft/yii2-bootstrap4": "^2.0"
+        "yiisoft/yii2-bootstrap4": "^2.0",
+        "2amigos/qrcode-library": "~1.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
