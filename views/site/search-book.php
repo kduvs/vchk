@@ -11,13 +11,14 @@ use dosamigos\selectize\SelectizeTextInput;
 $this->title = 'Your Yii Application';
 ?>
 <?php
-    if(isset($this->context->search) && $this->context->search != null)
-    {
-        $model = $this->context->search;
-    }
-    else{
-        $model = new BooksSearch();
-    }
+    // if(isset($this->context->search) && $this->context->search != null)
+    // {
+    //     $model = $this->context->search;
+    // }
+    // else{
+    //     $model = new BooksSearch();
+    // }
+    
     $form = ActiveForm::begin([
         'id' => 'firstRow',
         'method' => 'get',

@@ -16,6 +16,13 @@ use yii\helpers\Url;
                     'label' => 'Владелец',
                     'value' => $model->owner->title,         
                 ],
+                [
+                    'label' => 'Авторы',
+                    'attribute' => 'authorNamesFormat',
+                    'value' => function($data){
+                        return $data->authorBehavior->objectNamesFormat;
+                    }
+                ],
             ],
             'template' =>
                 '<tr> 

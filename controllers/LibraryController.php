@@ -36,21 +36,15 @@ class LibraryController extends Controller
 
     public function actionIndex()
     {
-        // $searchModel = new BooksSearch();
-        // $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $owners = Owners::find()->all();
+        $searchModel = new BooksSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        // return $this->render('index', [
-        //     'searchModel' => $searchModel,
-        //     'dataProvider' => $dataProvider,
-        // ]);
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => Books::find(),
-            'pagination' => [
-                'pageSize' => 25,
-            ],
+        return $this->render('index', [
+            'dataProvider' => $dataProvider,
+            'owners' => $owners,
+            'model' => $searchModel,
         ]);
-        return $this->render('index', ['dataProvider' => $dataProvider]);
     }
 
     // public function actionAjaxModal()
@@ -177,44 +171,44 @@ class LibraryController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    public function actionEditBook($id)
-    {
-        $book = $this->findBook($id);
+    // public function actionEditBook($id)
+    // {
+    //     $book = $this->findBook($id);
 
-        if (!Yii::$app->user->can('updateOwnBook', ['book' => $book])) {
-            throw new ForbiddenHttpException;
-        }
-        if ($book->load(Yii::$app->request->post()) && $book->save()) {
-            return $this->redirect(['profile']);
-        } else {
-            return $this->render('edit-book', ['book' => $book]);
-        }
-    }
+    //     if (!Yii::$app->user->can('manageBook', ['book' => $book])) {
+    //         throw new ForbiddenHttpException;
+    //     }
+    //     if ($book->load(Yii::$app->request->post()) && $book->save()) {
+    //         return $this->redirect(['profile']);
+    //     } else {
+    //         return $this->render('edit-book', ['book' => $book]);
+    //     }
+    // }
 
-    public function actionAddBook()
-    {
-        if (!Yii::$app->user->can('createOwnBook')) {
-            throw new ForbiddenHttpException;
-        }
+    // public function actionAddBook()
+    // {
+    //     if (!Yii::$app->user->can('manageBook')) {
+    //         throw new ForbiddenHttpException;
+    //     }
 
-        $book = new Books();
-        $book->owner_id = Yii::$app->user->identity->getId();
+    //     $book = new Books();
+    //     $book->owner_id = Yii::$app->user->identity->getId();
 
-        if ($book->load(Yii::$app->request->post()) && $book->save()) {
-            return $this->redirect(['users/profile']);
-        } else {
-            return $this->render('add-book', [
-                'book' => $book,
-            ]);
-        }
-    }
+    //     if ($book->load(Yii::$app->request->post()) && $book->save()) {
+    //         return $this->redirect(['users/profile']);
+    //     } else {
+    //         return $this->render('add-book', [
+    //             'book' => $book,
+    //         ]);
+    //     }
+    // }
 
-    public function actionDeleteBook($id)
-    {
-        $this->findBook($id)->delete();
+    // public function actionDeleteBook($id)
+    // {
+    //     $this->findBook($id)->delete();
 
-        return $this->redirect(['users/profile']);
-    }
+    //     return $this->redirect(['users/profile']);
+    // }
 
     protected function findBook($id)
     {

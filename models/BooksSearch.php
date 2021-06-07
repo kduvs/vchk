@@ -62,6 +62,9 @@ class BooksSearch extends Books
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
         ]);
 
         $this->load($params);
@@ -93,7 +96,7 @@ class BooksSearch extends Books
             ->andFilterWhere(['like', 'author.title', $this->getAttribute('authorNamesFormat')])
             ->joinWith(['tagB' => function($query) { $query->from(['tag' => 'tags']); }])
             ->andFilterWhere(['like', 'tag.title', $this->getAttribute('tagNamesFormat')]); //tagNamesFormat
-            if(isset($this->authorNames)){
+            if(trim($this->authorNames) != ''){
                 $authorNames = explode(",", $this->authorNames);
                 $query->andFilterWhere(['author.title' => $authorNames]); //пока что запрос будет выдавать все книги, у которых есть хотя бы один из данных авторов
             }

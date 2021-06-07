@@ -25,6 +25,5 @@
     "workbench.colorCustomizations": {
         "gitDecoration.modifiedResourceForeground": "#b657ff",
         "gitDecoration.untrackedResourceForeground": "#a29dfa"
-    }
-    
+    },
 }

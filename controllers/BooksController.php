@@ -33,14 +33,14 @@ class BooksController extends Controller
         ];
     }
 
-    public function beforeAction($action)
-    {
-        if (in_array($action->id, ['index', 'create', 'update', 'view']) && !Yii::$app->user->can('crudBook')) {
-            throw new ForbiddenHttpException;
-        } else {
-            return parent::beforeAction($action);
-        }
-    }
+    // public function beforeAction($action)
+    // {
+    //     if (in_array($action->id, ['create', 'update', 'view']) && !Yii::$app->user->can('manageBook', ['book' => $book])) {
+    //         throw new ForbiddenHttpException;
+    //     } else {
+    //         return parent::beforeAction($action);
+    //     }
+    // }
 
     /**
      * Lists all Books models.
@@ -49,6 +49,15 @@ class BooksController extends Controller
     public function actionIndex()
     {
         $searchModel = new BooksSearch();
+
+        if(Yii::$app->user->can('checkOwnList')){
+            $searchModel->owner_id = Yii::$app->user->identity->owner_id;
+        } else {
+            if(!Yii::$app->user->can('manage')){
+                throw new ForbiddenHttpException;
+            }
+        }
+
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -65,6 +74,12 @@ class BooksController extends Controller
      */
     public function actionView($id)
     {
+        $book = $this->findModel($id);
+
+        if(!Yii::$app->user->can('checkOwnList') && !Yii::$app->user->can('manage')){
+            throw new ForbiddenHttpException;
+        }
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -78,6 +93,15 @@ class BooksController extends Controller
     public function actionCreate()
     {
         $model = new Books();
+
+        if(Yii::$app->user->can('checkOwnList')){
+            $model->owner_id = Yii::$app->user->identity->owner_id;
+        } else {
+            if(!Yii::$app->user->can('manage')){
+                throw new ForbiddenHttpException;
+            }
+        }
+
         $owners = Owners::find()->all();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -112,6 +136,15 @@ class BooksController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+
+        if(Yii::$app->user->can('checkOwnList')){
+            $model->owner_id = Yii::$app->user->identity->owner_id;
+        } else {
+            if(!Yii::$app->user->can('manage')){
+                throw new ForbiddenHttpException;
+            }
+        }
+
         $owners = Owners::find()->all();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

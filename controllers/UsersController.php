@@ -18,6 +18,11 @@ use Yii;
 
 class UsersController extends \yii\web\Controller
 {
+    public function actionIssuing()
+    {
+        return $this->render('issuing');
+    }
+
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([

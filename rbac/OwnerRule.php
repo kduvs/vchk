@@ -10,7 +10,7 @@ use app\models\User;
  */
 class OwnerRule extends Rule
 {
-    public $name = 'isEmployee';
+    public $name = 'isOwner';
 
     /**
      * @param string|int $user the user ID.

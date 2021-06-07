@@ -17,9 +17,13 @@ use dosamigos\selectize\SelectizeTextInput;
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'owner_id')->dropDownList(
-        \yii\helpers\ArrayHelper::map($owners, 'id', 'title')
-    ) ?>
+    <?php 
+        if(Yii::$app->user->can('manage')) {
+            echo $form->field($model, 'owner_id')->dropDownList(
+                \yii\helpers\ArrayHelper::map($owners, 'id', 'title')
+            );
+        }
+    ?>
     
     <?= $form->field($model, 'tagNames')->widget(SelectizeTextInput::className(), [
         //$form->field($model, 'tagNames')->

@@ -10,17 +10,30 @@ class RbacController extends Controller
     {
         $auth = Yii::$app->authManager;
 
-        $rule = new \app\rbac\OwnerRule;
-        $auth->add($rule);
+        $manage = $auth->createPermission('manage'); //для обычных админов
+        $manage->description = 'Админка';
+        $auth->add($manage);
 
-        $updateOwnBook = $auth->createPermission('updateOwnBook'); //для обычных админов
-        $updateOwnBook->description = 'Редактирование своих книг';
-        $updateOwnBook->ruleName = $rule->name;
-        $auth->add($updateOwnBook);
+        $checkOwnList = $auth->createPermission('checkOwnList'); //для обычных админов
+        $checkOwnList->description = 'Просмотр главных страниц своих крудов';
+        $auth->add($checkOwnList);
 
-        $createOwnBook = $auth->createPermission('createOwnBook'); //для обычных админов
-        $createOwnBook->description = 'Добавление своих книг';
-        $auth->add($createOwnBook);
+        $manageBook = $auth->createPermission('manageBook'); //для обычных админов
+        $manageBook->description = 'Управление коллекциями';
+        $auth->add($manageBook);
+        // кароче вот тут новый крудбук сделал. удалишь упдатеовнбук и упдатекриейтбук сверху и старый крудбук снизу
+        // потом удалишь из бд те таблицы рбака и по новой вызовешь миграцию
+        // а потом в лайбрериКонтроллере, буксКонтроллере и во вьюхе книги в папке библиотеки подредачишь код
+
+        $ownerRule = new \app\rbac\OwnerRule;
+        $auth->add($ownerRule);
+
+        $manageOwnBook = $auth->createPermission('manageOwnBook');
+        $manageOwnBook->description = 'Управление частной коллекцией';
+        $manageOwnBook->ruleName = $ownerRule->name;
+        $auth->add($manageOwnBook);
+
+        $auth->addChild($manageOwnBook, $manageBook);
 
         $bookBooking = $auth->createPermission('bookBooking');
         $bookBooking->description = 'бронирование книги'; //например можно будет снимать по желанию данное разрешение со спамеров
@@ -28,10 +41,7 @@ class RbacController extends Controller
 
         $chat = $auth->createPermission('chat');
         $chat->description = 'чат'; //например можно будет снимать по желанию данное разрешение со спамеров
-        $auth->add($chat);/* */
-        $crudBook = $auth->createPermission('crudBook');
-        $crudBook->description = 'Круд для книг';
-        $auth->add($crudBook);
+        $auth->add($chat);
 
         $user = $auth->createRole('user'); //может юзать поиск, подавать заявки на книги, брать и возвращать их
         $auth->add($user);
@@ -40,16 +50,18 @@ class RbacController extends Controller
 
         $employee = $auth->createRole('employee'); 
         $auth->add($employee);
-        $auth->addChild($employee, $updateOwnBook);
-        $auth->addChild($employee, $createOwnBook);
         $auth->addChild($employee, $user);
+        $auth->addChild($employee, $checkOwnList);
+        $auth->addChild($employee, $manageOwnBook);
 
-        $admin = $auth->createRole('admin'); //не может иметь книги, но имеет власть над книгами, юзерами, логами и тегами
+        $admin = $auth->createRole('admin');
         $auth->add($admin);
-        $auth->addChild($admin, $crudBook);
-        $auth->addChild($admin, $user); //не от сотрудника, потому что админу не особо и нужно иметь свои книги, если он и так владеет всеми книгами ИС
-        //при регистрации роль сотрудника задается путем проверки личного кабинета, а под роль админа изначально существует отдельный аккаунт
+        $auth->addChild($admin, $manage);
+        $auth->addChild($admin, $manageBook);
+        $auth->addChild($admin, $employee);
 
+        
+        
         $auth->assign($employee, 5);
         $auth->assign($admin, 6);
     }

@@ -203,17 +203,16 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
-    public $search;
     public function actionSearchBook()
     {
         $owners = Owners::find()->all();
         $searchModel = new BooksSearch();
-        $this->search = $searchModel;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('search-book', [
             'dataProvider' => $dataProvider,
             'owners' => $owners,
+            'model' => $searchModel,
         ]);
     }
 }
