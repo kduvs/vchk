@@ -132,9 +132,12 @@ class SiteController extends Controller
         $model = new SignupForm();
         if($model->load(\Yii::$app->request->post()) && $model->validate()) {
             $user = new User();
+            $user->name = $model->name;
+            $user->surname = $model->surname;
             $user->username = $model->username;
             $user->password = \Yii::$app->security->generatePasswordHash($model->password);
             if($user->save()) {
+                Yii::$app->user->login($user, 0);
                 return $this->goHome();
             }
         }

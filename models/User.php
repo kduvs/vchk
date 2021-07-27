@@ -15,8 +15,9 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'password'], 'required', 'message' => 'Заполните поле'],
+            //[['username', 'password', 'name', 'surname'], 'required', 'message' => 'Заполните поле'],
             ['username', 'unique', 'targetClass' => User::className(),  'message' => 'Этот логин уже занят'],
+            [['auth_key'], 'string', 'max' => 255],
             [['owner_id'], 'exist', 'skipOnError' => true, 'targetClass' => Owners::className(), 'targetAttribute' => ['owner_id' => 'id']],
         ];
     }
@@ -25,8 +26,10 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     {
         return [
             'id' => 'ID',
+            'name' => 'Имя',
+            'surname' => 'Фамилия',
             'username' => 'Логин',
-            'password' => 'Password',
+            'password' => 'Пароль',
             'owner_id' => 'Owner_id'
         ];
     }
@@ -89,12 +92,12 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
     public function getAuthKey()
     {
-        // return $this->authKey;
+        return $this->auth_key;
     }
  
     public function validateAuthKey($authKey)
     {
-        return $this->authKey === $authKey;
+        return $this->getAuthKey() === $authKey;
     }
 
     public function validatePassword($password)
@@ -102,15 +105,15 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return \Yii::$app->security->validatePassword($password, $this->password);
     }
 
-    // public function beforeSave($insert)
-    // {
-    //     if (parent::beforeSave($insert)) {
-    //         if ($this->isNewRecord) {
-    //             $this->auth_key = \Yii::$app->security->generateRandomString();
-    //         }
-    //         return true;
-    //     }
-    //     return false;
-    // }
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                $this->auth_key = \Yii::$app->security->generateRandomString();
+            }
+            return true;
+        }
+        return false;
+    }
 
 }

@@ -27,7 +27,8 @@
         "yiisoft/yii2-bootstrap4": "^2.0",
         "2amigos/qrcode-library": "~1.1",
         "yiisoft/yii2-imagine": "^2.3",
-        "mdq/yii2-instascan-widget": "*"
+        "mdq/yii2-instascan-widget": "@dev",
+        "noam148/yii2-image-manager": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

@@ -18,9 +18,9 @@ use Yii;
 
 class UsersController extends \yii\web\Controller
 {
-    public function actionIssuing()
+    public function actionIssuing($qr = null)
     {
-        return $this->render('issuing');
+        return $this->render('issuing', ['qr' => $qr]);
     }
 
     public function actionIndex()

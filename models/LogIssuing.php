@@ -25,6 +25,13 @@ use yii\behaviors\TimestampBehavior;
  */
 class LogIssuing extends \yii\db\ActiveRecord
 {
+    //эти переменные служат для того, чтобы хранить
+    //зашифрованные данные qr-кодов юзеров и экземпляров литературы
+    //для соотв. полей формы выдачи/возврата экземпляров (users/issuing)
+    //их расшифровка и запись в атрибуты модели будет производиться уже во вьюхе с виджетами сканирования qr-кодов
+    public $user_qr; 
+    public $book_qr;
+    
     /**
      * {@inheritdoc}
      */
@@ -41,9 +48,8 @@ class LogIssuing extends \yii\db\ActiveRecord
         return [
             [['book_id', 'owner_id', 'taker_id', 'deadline'], 'required'],
             [['book_id', 'owner_id', 'issuing_id', 'recipient_id', 'taker_id'], 'integer'],
-            ['response','safe'],
-            //[['deadline'], 'safe'],
-            [['message'], 'string'],
+            [['response', 'message', 'user_qr', 'book_qr', 'issue_time', 'return_time', 'responce_time', 'request_time'] ,'safe'],
+            [['message', 'response'], 'string'],
             [['book_id'], 'exist', 'skipOnError' => true, 'targetClass' => Books::className(), 'targetAttribute' => ['book_id' => 'id']],
             [['issuing_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['issuing_id' => 'id']],
             [['owner_id'], 'exist', 'skipOnError' => true, 'targetClass' => Owners::className(), 'targetAttribute' => ['owner_id' => 'id']],

@@ -7,10 +7,12 @@ class SignupForm extends Model
 {
     public $username;
     public $password;
+    public $name;
+    public $surname;
 
     public function rules() {
         return [
-            [['username', 'password'], 'required', 'message' => 'Заполните поле'],
+            [['username', 'password', 'name', 'surname'], 'required', 'message' => 'Заполните поле'],
         ];
     }
 
@@ -18,6 +20,8 @@ class SignupForm extends Model
         return [
             'username' => 'Логин',
             'password' => 'Пароль',
+            'name' => 'Имя',
+            'surname' => 'Фамилия',
         ];
     }
 }

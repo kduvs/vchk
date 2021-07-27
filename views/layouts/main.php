@@ -34,7 +34,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => Yii::$app->name,
+        'brandLabel' => 'Внутренние частные коллекции',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-fixed-top',
@@ -44,18 +44,20 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right', 'style' => 'background-color: #fff2fd;'],
         'encodeLabels' => False,
-        'items' => array_filter([ //array_filter переигрывает и уничтожает false-итемы
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            Yii::$app->user->isGuest ? ['label' => 'Signup', 'url' => ['/site/signup']] : false,
-            Yii::$app->user->isGuest ? ['label' => 'Login', 'url' => ['/site/login']] : 
+        'items' => array_filter([ //array_filter переигрывает и уничтожает false-итемы            
+            // ['label' => 'Связь с администратором', 'url' => ['/site/contact']],
+            ['label' => 'Литература', 'url' => ['/library/index']],
+            Yii::$app->user->isGuest ? false : ['label' => 'Уведомления', 'url' => ['/users/notifications']],
+            (Yii::$app->user->can('checkOwnList') or Yii::$app->user->can('manage')) ? ['label' => 'Выдача', 'url' => ['/users/issuing']] : false,
+            Yii::$app->user->isGuest ? ['label' => 'Регистрация', 'url' => ['/site/signup']] : false,
+            Yii::$app->user->isGuest ? ['label' => 'Вход', 'url' => ['/site/login']] : 
                 ([
                     'label' => '<img src="data:image/png;base64,'.base64_encode($imagine->getImagine()->open($source)->resize(new Box(18, 18))).'" >',
-                    'items' => [
+                    'items' => array_filter([
                         ['label' => 'Профиль('.Yii::$app->user->identity->username.')', 'url' => ['/users/profile'], 'options' => ['style' => 'width: 200px;']], //достаточно у одной колонки поменять ширину
-                        ['label' => 'Выйти', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']],    
-                    ],
+                        (Yii::$app->user->can('checkOwnList') or Yii::$app->user->can('manage')) ? ['label' => 'Частная коллекция', 'url' => ['/books/index']] : false,
+                        ['label' => 'Выйти', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']],
+                    ]),
                 ]),
         ]),
     ]);
@@ -73,9 +75,9 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; Created by KDUVS</p>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="pull-right"> <?= date('Y').' год'?></p>
     </div>
 </footer>
 

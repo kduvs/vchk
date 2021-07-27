@@ -8,46 +8,41 @@ use yii\helpers\Html;
 //use app\assets\MyBadInstascanAsset;
 use yii\web\View;
 use mdq\instascan\QrReader;
+use kartik\datetime\DateTimePicker;
+use app\models\LogIssuing;
 
 $this->title = 'Выдача';
 
 $this->params['breadcrumbs'][] = $this->title;
-
-
-
-// $this->registerJs(
-//     "let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
-//     scanner.addListener('scan', function (content) {
-//         console.log(content);
-//     });
-//     Instascan.Camera.getCameras().then(function (cameras) {
-//         if (cameras.length > 0) {
-//             scanner.start(cameras[0]);
-//         } else {
-//         console.error('No cameras found.');
-//         }
-//     }).catch(function (e) {
-//         console.error(e);
-//     });",
-//     View::POS_BEGIN,
-// );
-
-    //'@web/js/main.js',
-    //['depends' => [\yii\web\JqueryAsset::class]]
-// $this->registerJsFile(
-//     '/vchk\vendor/npm-asset/mybadinstascan/instascan-script.js',
-//     ['depends' => [InstascanAsset::class]]
-// );
 ?>
 
-<?= QrReader::widget([
+<h2><center><?= QrReader::widget([
+    'buttonLabel' => 'Сканировать Qr-код пользователя',
+
+    'successCallback' => 'function(data){
+        /*console.log(data);*/
+        // alert(data);
+        window.location.href = "?qr=" + data;
+    }',
+    ]); ?></center></h2>
+<br>
+<br>
+<br>
+<h2><center><?= QrReader::widget(['buttonLabel' => 'Сканировать Qr-код экземпляра']); ?></center></h2>
+
+
+<!-- <?= QrReader::widget([
     'videoOptions' => ['class' => 'qr-reader-preview', 'style' => 'width: 300px; height: 188px; '],
     // When buttonLabel is "false", render camera immediately.
-    'buttonLabel' => 'Scan',
-    'buttonOptions' => ['class' => 'btn btn-default'],
+    'buttonLabel' => 'Сканировать Qr-код',
+    'buttonOptions' => ['class' => 'btn btn-primary'],
     'options' => ['class' => 'qr-reader'],
 
-    'successCallback' => 'function(data){console.log(data);}',
+    'successCallback' => 'function(data){
+        /*console.log(data);*/
+        // alert(data);
+        window.location.href = "?qr=" + data;
+    }',
     'noCameraFoundCallback' => "function(cameras){console.error('No cameras found.');}",
     'initErrorCallback' => 'function (e) {console.error(e);}',
 
@@ -61,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     // Whether to include the scanned image data as part of the scan result. See the "scan" event
     // for image format details. Default false.
-    'captureImage' => false,
+    'captureImage' => true,
 
     // Only applies to continuous mode. Whether to actively scan when the tab is not active.
     // When false, this reduces CPU usage when the tab is not active. Default true.
@@ -76,4 +71,6 @@ $this->params['breadcrumbs'][] = $this->title;
     'scanPeriod' => 10,
 
     'debug' => YII_DEBUG,
-]); ?>
+]); ?> -->
+<br>
+<?= $qr ?>

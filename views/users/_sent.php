@@ -36,7 +36,10 @@ use yii\bootstrap\Button;
                 'attribute' => 'deadline',
             ],
             [
-                'attribute' => 'taker_id',
+                'label' => 'Имя пользователя',
+                'value' => function($data){
+                    return $data->taker->username;
+                }
             ],
             [
                 'attribute' => 'book_id',

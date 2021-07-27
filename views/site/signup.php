@@ -5,6 +5,8 @@ use yii\bootstrap\ActiveForm;
 
 <?php $form = ActiveForm::begin() ?>
 <?= $form->field($model, 'username') ?>
+<?= $form->field($model, 'name') ?>
+<?= $form->field($model, 'surname') ?>
 <?= $form->field($model, 'password')->passwordInput() ?>
 <div class="form-group">
     <div>

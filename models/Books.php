@@ -31,6 +31,20 @@ class Books extends \yii\db\ActiveRecord
         $this->authorBehavior = $this->getBehavior('authorBehavior');
     }
 
+public function beforeSave($insert)
+{
+    if (parent::beforeSave($insert)) {
+        if ($insert) {
+            $this->crypt_key = Yii::$app->getSecurity()->generateRandomString(32);
+            $this->qr_code = Yii::$app->getSecurity()->encryptByKey($this->tableName().'/'.$this->id, $this->crypt_key);
+        }
+        return true;
+    } else {
+        return false;
+    }
+    
+}
+
     public function getTagB(){
         return $this->getBehavior('tagBehavior')->objects;
     }
@@ -62,146 +76,6 @@ class Books extends \yii\db\ActiveRecord
         return $this->authorBehavior->objectNames;
     }
 
-    // private $_tags;
-    // private $_tagNames;
-
-    // public function getTags($obj = false){
-    //     $query = $this->hasMany(Tags::className(), ['id' => 'tag_id'])
-    //                     ->viaTable('book_tag', ['book_id' => 'id']);
-    //     if($obj === true){
-    //         if(!isset($this->_tags)){
-    //             $this->_tags = $query->all();
-    //         }
-    //         return $this->_tags;    
-    //     }
-    //     return $query;
-    // }
-
-    // public function getTagNamesArray(){
-    //     $tags = $this->getTags(true);
-    //     $res = [];
-    //     if(count($tags)){
-    //         foreach($tags as $tag){
-    //             $res[$tag->id] = $tag->title;
-    //         }
-    //     }
-    //     return $res;
-    // }
-
-    // public function getTagNamesFormat($format = 'default', $delimeter = ', '){
-    //     $tags = $this->getTagNamesArray();
-    //     $res = '';
-    //     if($format == 'default'){
-    //         if(count($tags)){
-    //             foreach($tags as $key => $tag){
-    //                 $res .= $tags[$key];
-    //                 $res .= $delimeter;
-    //             }
-    //         }
-    //         $res = substr($res, 0, -1*strlen($delimeter));
-    //     }
-    //     return $res;
-    // } 
-
-    
-
-    // public function getTagNames(){
-    //     if(!isset($this->_tagNames)){
-    //         $my_tags = $this->getTags(true);
-    //         if(count($my_tags)){
-    //             foreach($my_tags as $tag){
-    //                 $this->_tagNames .= $tag->title;
-    //                 $this->_tagNames .= ',';
-    //             }
-    //             $this->_tagNames = substr($this->_tagNames, 0, -1);
-    //         } else {
-    //             $this->_tagNames = '';
-    //         }
-    //     }
-    //     return $this->_tagNames;
-    // }
-
-    // private function tagInsert($cur_tags){
-    //     if(count($cur_tags)){
-    //         $rows = [];
-    //         foreach($cur_tags as $tag){
-    //             $rows[] = array($this->id, $tag->id);
-    //         }
-    //         if(count($rows) != 0){
-    //             if(Yii::$app->db->createCommand()->batchInsert('book_tag', ['book_id', 'tag_id'], $rows)->execute()){
-    //                 return true;
-    //             }
-    //         }
-    //     }
-    //     return false;
-    // }
-
-    // public function afterSave($insert, $changedAttributes){
-    //     parent::afterSave($insert, $changedAttributes);
-    //     $book_tag = [];
-    //     $names = explode(",", $this->tagNames);
-    //     $cur_tags = [];
-    //     foreach($names as $name){
-    //         $t = Tags::find()->where(['title' => $name])->one();
-    //         if(!$t){
-    //             if($name){
-    //                 $t = new Tags();
-    //                 $t->title = $name;
-    //                 $t->save();
-    //                 $cur_tags[] = $t;
-    //             }
-    //         } else {
-    //             $cur_tags[] = $t;
-    //         }
-            
-    //     }
-        
-    //     if($insert){
-    //         $this->tagInsert($cur_tags);
-    //     } else {
-    //         $db_tags = $this->getTags(true);
-    //         $x = [];
-    //         $y = [];
-    //         foreach($db_tags as $tag1){
-    //             foreach($cur_tags as $tag2){
-    //                 if($tag1->id == $tag2->id){
-    //                     //unset($db_tags[$key]);
-    //                     //unset($cur_tags[$key2]);
-    //                     $x[] = $tag1;
-    //                     $y[] = $tag2;
-    //                 }
-    //             }
-    //         }
-    //         foreach($x as $key=> $obj){
-    //             unset($db_tags[$key]);
-    //         }
-    //         foreach($y as $key => $obj){
-    //             unset($cur_tags[$key]);
-    //         }
-    //         if(count($db_tags)){
-    //             $tag_ids = [];
-    //             foreach($db_tags as $tag){   
-    //                 $tag_ids[] = $tag->id;
-    //             }
-    //             Yii::$app->db->createCommand()->delete('book_tag', ['AND', 'book_id = :book_id', ['IN', 'tag_id', $tag_ids]], [':book_id' => $this->id])->execute();   
-    //         }
-    //         $this->tagInsert($cur_tags);
-    //     }
-    // }
-
-    // public function setTags($some_tags){
-    //     $this->_tags = $some_tags;
-    // }
-
-    // public function setTagNames($some_tagNames){
-    //     $this->_tagNames = $some_tagNames;
-    // }
-
-    // public function afterDelete(){
-    //     Yii::$app->db->createCommand()->delete('book_tag', 'book_id = :book_id', [':book_id' => $this->id])->execute();
-    //     parent::afterDelete();
-    // }
-
     /**
      * {@inheritdoc}
      */
@@ -216,14 +90,15 @@ class Books extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'description', 'owner_id', 'qr_code'], 'required'],
+            [['title', 'description', 'owner_id'], 'required'],
             [['description'], 'string'],
             [['tagNames'], 'safe'],
             [['authorNames'], 'safe'],
             [['objectNames'], 'safe'],
-            [['owner_id'], 'integer'],
+            [['owner_id', 'imagemanager_id'], 'integer'],
             [['title'], 'string', 'max' => 255],
-            [['qr_code'], 'string', 'max' => 55],
+            [['qr_code'], 'string', 'max' => 255],
+            [['crypt_key'], 'string', 'max' => 32],
             [['owner_id'], 'exist', 'skipOnError' => true, 'targetClass' => Owners::className(), 'targetAttribute' => ['owner_id' => 'id']],
         ];
     }
@@ -238,6 +113,7 @@ class Books extends \yii\db\ActiveRecord
             'title' => 'Название книги',
             'description' => 'Описание',
             'owner_id' => 'Владелец',
+            'imagemanager_id' => 'Изображение',
             'qr_code' => 'Qr-код',
             'tagNames' => 'Список тегов',
             'authorNames' => 'Список авторов',

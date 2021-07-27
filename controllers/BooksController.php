@@ -12,6 +12,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\ForbiddenHttpException;
+use Da\QrCode\QrCode;
 
 /**
  * BooksController implements the CRUD actions for Books model.
@@ -80,8 +81,16 @@ class BooksController extends Controller
             throw new ForbiddenHttpException;
         }
 
+        $qr_code = (new QrCode(utf8_encode($book->qr_code)))
+            ->setSize(200)
+            ->setMargin(5)
+            ->useForegroundColor(51, 153, 255);
+
+        $q = '<img src="' . $qr_code->writeDataUri() . '">';
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'q' => $q,
         ]);
     }
 
@@ -133,16 +142,12 @@ class BooksController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id)///////////////////////////проверить
     {
         $model = $this->findModel($id);
 
-        if(Yii::$app->user->can('checkOwnList')){
-            $model->owner_id = Yii::$app->user->identity->owner_id;
-        } else {
-            if(!Yii::$app->user->can('manage')){
-                throw new ForbiddenHttpException;
-            }
+        if(!Yii::$app->user->can('manageBook', ['book' => $model])){
+            throw new ForbiddenHttpException;
         }
 
         $owners = Owners::find()->all();
@@ -167,6 +172,10 @@ class BooksController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+
+        if(!Yii::$app->user->can('manageBook', ['book' => $model])){
+            throw new ForbiddenHttpException;
+        }
 
         return $this->redirect(['index']);
     }

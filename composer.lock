@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f8b7d733e57f93fe3f1908fea4e9dd4b",
+    "content-hash": "77683ea38f1b86b40399f20541b51807",
     "packages": [
         {
             "name": "2amigos/qrcode-library",
@@ -220,7 +220,7 @@
             "version": "3.3.11",
             "source": {
                 "type": "git",
-                "url": "https://github.com/RobinHerbots/Inputmask.git",
+                "url": "git@github.com:RobinHerbots/Inputmask.git",
                 "reference": "5e670ad62f50c738388d4dcec78d2888505ad77b"
             },
             "dist": {
@@ -241,7 +241,7 @@
             "version": "3.5.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/jquery/jquery-dist.git",
+                "url": "git@github.com:jquery/jquery-dist.git",
                 "reference": "4c0e4becb8263bb5b3e6dadc448d8e7305ef8215"
             },
             "dist": {
@@ -658,6 +658,65 @@
             "time": "2020-11-03T22:35:03+00:00"
         },
         {
+            "name": "kartik-v/bootstrap-fileinput",
+            "version": "v5.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
+                "reference": "277dc8dfd5e1a89888129a4d252efdab9751b738"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/277dc8dfd5e1a89888129a4d252efdab9751b738",
+                "reference": "277dc8dfd5e1a89888129a4d252efdab9751b738",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "kartik\\plugins\\fileinput\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "An enhanced HTML 5 file input for Bootstrap 3.x with features for file preview for many file types, multiple selection, ajax uploads, and more.",
+            "homepage": "https://github.com/kartik-v/bootstrap-fileinput",
+            "keywords": [
+                "ajax",
+                "bootstrap",
+                "delete",
+                "file",
+                "image",
+                "input",
+                "jquery",
+                "multiple",
+                "preview",
+                "progress",
+                "upload"
+            ],
+            "funding": [
+                {
+                    "url": "https://opencollective.com/bootstrap-fileinput",
+                    "type": "open_collective"
+                }
+            ],
+            "time": "2021-05-19T12:58:26+00:00"
+        },
+        {
             "name": "kartik-v/yii2-krajee-base",
             "version": "v2.0.6",
             "source": {
@@ -876,6 +935,67 @@
             "time": "2020-09-11T13:24:42+00:00"
         },
         {
+            "name": "kartik-v/yii2-widget-fileinput",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/yii2-widget-fileinput.git",
+                "reference": "d43bb9d9638ba117bbaa0045250645dc843fcf7f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-fileinput/zipball/d43bb9d9638ba117bbaa0045250645dc843fcf7f",
+                "reference": "d43bb9d9638ba117bbaa0045250645dc843fcf7f",
+                "shasum": ""
+            },
+            "require": {
+                "kartik-v/bootstrap-fileinput": ">=5.0.0",
+                "kartik-v/yii2-krajee-base": ">=2.0.0"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "kartik\\file\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "An enhanced FileInput widget for Bootstrap 3.x & 4.x with file preview, multiple selection, and more features (sub repo split from yii2-widgets)",
+            "homepage": "https://github.com/kartik-v/yii2-widget-fileinput",
+            "keywords": [
+                "extension",
+                "file",
+                "form",
+                "input",
+                "jquery",
+                "plugin",
+                "upload",
+                "widget",
+                "yii2"
+            ],
+            "funding": [
+                {
+                    "url": "https://opencollective.com/yii2-widget-fileinput",
+                    "type": "open_collective"
+                }
+            ],
+            "time": "2020-10-23T19:54:51+00:00"
+        },
+        {
             "name": "kartik-v/yii2-widget-typeahead",
             "version": "dev-master",
             "source": {
@@ -1019,6 +1139,101 @@
                 "yii2"
             ],
             "time": "2019-02-22T19:17:04+00:00"
+        },
+        {
+            "name": "noam148/yii2-image-manager",
+            "version": "1.2.13",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/noam148/yii2-image-manager.git",
+                "reference": "6e2216d7d2415b548ec6ae2ab25019e24b905a69"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/noam148/yii2-image-manager/zipball/6e2216d7d2415b548ec6ae2ab25019e24b905a69",
+                "reference": "6e2216d7d2415b548ec6ae2ab25019e24b905a69",
+                "shasum": ""
+            },
+            "require": {
+                "kartik-v/yii2-widget-fileinput": "@dev",
+                "noam148/yii2-image-resize": "*",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "noam148\\imagemanager\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Noam148",
+                    "homepage": "https://github.com/noam148/"
+                }
+            ],
+            "description": "A Yii2 module/widget for upload and cropping images",
+            "homepage": "https://github.com/noam148/yii2-image-manager",
+            "keywords": [
+                "crop",
+                "extension",
+                "image",
+                "manager",
+                "module",
+                "upload",
+                "widget",
+                "yii2"
+            ],
+            "time": "2019-05-16T06:28:53+00:00"
+        },
+        {
+            "name": "noam148/yii2-image-resize",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/noam148/yii2-image-resize.git",
+                "reference": "32c5adf7211e06cefc6861a2164855573e968038"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/noam148/yii2-image-resize/zipball/32c5adf7211e06cefc6861a2164855573e968038",
+                "reference": "32c5adf7211e06cefc6861a2164855573e968038",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*",
+                "yiisoft/yii2-imagine": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "noam148\\imageresize\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Noam148",
+                    "homepage": "https://github.com/noam148/"
+                }
+            ],
+            "description": "A Yii2 component for resizing images (on the fly)",
+            "homepage": "https://github.com/noam148/yii2-image-resize",
+            "keywords": [
+                "component",
+                "extension",
+                "image",
+                "on-the-fly",
+                "resize",
+                "yii2"
+            ],
+            "time": "2018-02-18T19:23:04+00:00"
         },
         {
             "name": "npm-asset/bootstrap",
@@ -5977,12 +6192,13 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "stability-flags": {
         "kartik-v/yii2-widget-datepicker": 20,
         "kartik-v/yii2-widget-typeahead": 20,
         "kartik-v/yii2-widget-datetimepicker": 20,
-        "kartik-v/yii2-widget-activeform": 20
+        "kartik-v/yii2-widget-activeform": 20,
+        "mdq/yii2-instascan-widget": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

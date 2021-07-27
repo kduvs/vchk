@@ -70,7 +70,12 @@ use dosamigos\selectize\SelectizeTextInput;
         ],
     ])*/ ?>
 
-    <?= $form->field($model, 'qr_code')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'imagemanager_id')->widget(\noam148\imagemanager\components\ImageManagerInputWidget::className(), [
+        'aspectRatio' => (9/16), //set the aspect ratio
+        'cropViewMode' => 1, //crop mode, option info: https://github.com/fengyuanchen/cropper/#viewmode
+        'showPreview' => true, //false to hide the preview
+        'showDeletePickedImageConfirm' => false, //on true show warning before detach image
+    ]); ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

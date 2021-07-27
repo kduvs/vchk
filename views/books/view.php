@@ -32,8 +32,17 @@ $this->params['breadcrumbs'][] = $this->title;
             //'id',
             'title',
             'description:ntext',
-            //'owner_id',
-            'qr_code',
+            // [
+            //     'label' => 'хех',
+            //     'value' => function($data){
+            //         return Yii::$app->getSecurity()->decryptByKey($data->qr_code, $data->crypt_key);
+            //     }
+            // ],
+            [
+                'label' => 'Qr-код',
+                'value' => $q,
+                'format' => 'raw'
+            ],
             [
                 'label' => 'Владелец',
                 'attribute' => 'owner_title',
